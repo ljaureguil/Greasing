@@ -63,8 +63,8 @@ font-weight:bold;
         position:absolute;
         overflow:auto;
         width:80%;
-        height:60%;
-        top:20%;
+        height:70%;
+        top:10%;
         left:10%;
         border-style:solid;
         background:white;
@@ -84,18 +84,29 @@ Search<input id="isearch" oninput="search(this.value)">
 </div>
 <div id="dedit">
 <p id="ti" style="text-align:center"></p>
+Options<select id="sops" oninput="selOpc(this.selectedIndex)">
+    <option>Choose an option</option>
+    <option>Edit Truck Info.</option>
+    <option>Reset Truck object</option>
+    <option>Clear body Historial</option>
+    <option>Clear Chassy Historial</option>
 
+    <option></option>
+    <option></option>
+
+</select>
 <textarea id="desc" style='width:100%;height:20%;' readonly></textarea><br><br>
-Body Historial:<select id="hbody" oninput="alert(this.value)"></select><br>
-Chassy Historial:<select id="hchassy" oninput="alert(this.value)"></select><br><br>
+<select id="hbody" oninput="alert(this.value)"></select> Body Historial<br>
+<select id="hchassy" oninput="alert(this.value)"></select> Chassy Historia:<br><br>
 
 Greasing Date of Body<br>
 <input id="dategrbody" type="date"></input> <br><br>Greasing Date of Chassy<br>
 <input id="dategrchassy" type="date"></input> <br> <br>
 Machanic:
 <input id="mecanico" placeholder="Andres"></input><br><br>
-<button onclick="update(dedit.obj)" style="top:95%;color:red;">Update</button>
-<button onclick="dedit.style.display='none'" style="top:95%;">Close</button>
+<textarea id="note" style="width:98%;height:30%;"></textarea>
+<button onclick="update(dedit.obj)" style="position:absolute;top:95%;left:5%;color:red;">Update</button>
+<button onclick="dedit.style.display='none'" style="position:absolute;top:95%;right:5%;">Close</button>
 
 
   
@@ -114,15 +125,15 @@ for(var i=0;i<ar.length;i++){
     o.greasing={body:[],chassy:[]};
     o.reparings=[];
     o.info={Licence_Plate:"",vin:"",Reg_Stiker:"",cng_date:"",Last_milage:0};
-    o.index=i;
+    o.note="";
 //    es.appendChild(crTag(o));
 
     ob.trks.push(o)
 }
 
 localStorage.setItem("grs", JSON.stringify(ob))
+UpdateJ(link,ob,function(){alert(JSON.stringify(ob))});  
 */
-
 //alert(JSON.stringify(ob))
 
   sc = localStorage.getItem("grs");
@@ -145,41 +156,36 @@ localStorage.setItem("grs", JSON.stringify(ob))
 }     })
         
 //      UpdateJ(link,ob);  
-
-
-        
-        
+       
     }
-
-
 
 function crTag(trk){
 
     var p = document.createElement("button");
                 p.setAttribute("class", "cb");
                 p.obj=trk;
-                p.innerHTML=trk.truck
+                var fs="<br><font size='1'>Body "+trk.greasing.body[0]+"<br>Chassy:"+trk.greasing.chassy[0]+"</font>";
+                p.innerHTML=trk.truck;//+fs
                 p.onclick=function(){
                   //  alert(this.value);
                     dedit.obj=this.obj;
-                    ti.innerHTML=this.obj.truck;
+                    ti.innerHTML=this.obj.truck//
                     
                     desc.value=JSON.stringify(this.obj.info).replace(/}/g,"").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"")
                     dedit.style.display="block";
+                    hbody.innerHTML="";
+                    hchassy.innerHTML="";
                     var arb=this.obj.greasing.body;var arc=this.obj.greasing.chassy;
-                 //   alert(arb.length)
-
+ 
                     for(var i=0;i<arb.length;i++){
                         hbody.innerHTML+="<option>"+arb[i]+"</option>";                        
                     }
                     for(var i=0;i<arc.length;i++){
                         hchassy.innerHTML+="<option>"+arc[i]+"</option>";                        
                     }                   
-                    
-                 //   alert(this.value)
-                    
+                   
                 }
-           //     p.readOnly=true;
+
                 var aa=JSON.stringify(trk).replace(/}/g,"\n}").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"\n{\n")
                  p.value = aa;
                  p.style = "border-color:#0f0;";
@@ -208,13 +214,73 @@ else{
 }
 
 function update(o){
-    alert(dategrbody.value)
+   // alert(dategrbody.value)
      if(dategrbody.value!="") o.greasing.body.push(dategrbody.value);
     if(dategrchassy.value!="")o.greasing.chassy.push(dategrchassy.value);
-    alert(JSON.stringify(ob));
-    localStorage.setItem("grs", JSON.stringify(ob))
+  //  alert(JSON.stringify(ob));
+    localStorage.setItem("grs", JSON.stringify(ob));
+    UpdateJ(link,ob);  
     
     
+}
+
+function selOpc(op){
+    var o=dedit.obj
+    var to=o.info; 
+    if(op==1){
+        var lp=prompt("Type Licence plate for "+o.truck,to.Licence_Plate);
+        var vin=prompt("Type VIN for "+o.truck,to.vin);
+        var sd=prompt("Type Stiker Date for "+o.truck,to.Reg_Stiker);
+          var cd=prompt("Type CNG Date for "+o.truck,to.cng_date);
+        var lm=prompt("Type Last Milage for "+o.truck,to.last_milage)*1; 
+        if(lp!=null) to.Licence_Plate=lp;
+        if(vin!=null)to.vin=vin;
+        if(sd!=null)to.Reg_Stiker=sd;
+        if(lm!=null)to.cng_date=cd;
+        if(cd!=null)to.Last_milage=lm;
+        desc.value=JSON.stringify(o.info).replace(/}/g,"").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"");
+        alert(desc.value);
+  
+}   
+ if(op==2){
+          if(prompt("For this option Type password")==="andres123"){    
+     if(confirm("Are you sure, it will delete all information of this truck")) {
+
+     o.greasing={body:[],chassy:[]};
+    o.reparings=[];
+    o.info={Licence_Plate:"",vin:"",Reg_Stiker:"",cng_date:"",Last_milage:0};
+    o.note=""; 
+    desc.value=JSON.stringify(o.info).replace(/}/g,"").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"");
+    
+     alert(o.truck+" Has been reseted, press update to save changes")
+     }
+}
+else alert("Wrong password")
+ }
+ if(op==3){
+    if(prompt("For this option Type password")==="andres123"){    
+        o.greasing.body=[];
+        alert(o.truck+"Body history Has been reseted, press update to save changes")    
+    }
+    else alert("Wrong password")  
+ }
+ if(op==4){
+    if(prompt("For this option Type password")==="andres123"){    
+        o.greasing.chassy=[];
+        alert(o.truck+"Chassy history Has been reseted, press update to save changes")    
+}
+else alert("Wrong password")
+     
+}
+if(op==2){
+
+     
+}
+if(op==2){
+
+     
+}
+sops.selectedIndex=0;
 }
 
 function GetJ(url, callback) {
