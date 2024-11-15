@@ -1,0 +1,316 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="https://static.thenounproject.com/png/2713807-200.png">
+    <title>GRS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+<style>
+body{
+ background:white;   
+}
+    #todo {
+
+        width: 100%;
+        height: 96%;
+        overflow: auto;
+        margin:10px;
+        
+
+    }
+
+    textareaa {
+        margin: 5px;
+        width: 95%;
+        height: 30%;
+        padding: 5px;
+        background-color: #aaffaa;
+    }
+
+    .cb{
+       // width: 80%;
+     //   height: 25%;
+font-siz:22px;
+font-weight:bold;
+        color: black;
+        background-color: white;
+        padding: 5px;
+        margin: 15px;
+        border-radius: 5px;
+        box-shadow: -18px 14px 14px 1px rgba(0, 0, 0, 0.14);
+    }
+
+    #es {
+        width: 100%;
+        background-color: white;
+        text-align: center;
+
+    }
+
+    #res {
+        width: 15%;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background: red;
+        color: white;
+        border-radius: 5px;
+        box-shadow: -12px 10px 10px 1px rgba(90, 0, 0, 0.24);
+    }
+    #dedit{
+        position:absolute;
+        overflow:auto;
+        width:80%;
+        height:60%;
+        top:20%;
+        left:10%;
+        border-style:solid;
+        background:white;
+        padding:5px;
+        display:none;
+        
+    }
+</style>
+Search<input id="isearch" oninput="search(this.value)">
+
+
+<button id="res" onclick="reset()">Reset</button>
+<div id="todo">
+
+
+    <div id="es"></div>
+</div>
+<div id="dedit">
+<p id="ti" style="text-align:center"></p>
+
+<textarea id="desc" style='width:100%;height:20%;' readonly></textarea><br><br>
+Body Historial:<select id="hbody" oninput="alert(this.value)"></select><br>
+Chassy Historial:<select id="hchassy" oninput="alert(this.value)"></select><br><br>
+
+Greasing Date of Body<br>
+<input id="dategrbody" type="date"></input> <br><br>Greasing Date of Chassy<br>
+<input id="dategrchassy" type="date"></input> <br> <br>
+Machanic:
+<input id="mecanico" placeholder="Andres"></input><br><br>
+<button onclick="update(dedit.obj)" style="top:95%;color:red;">Update</button>
+<button onclick="dedit.style.display='none'" style="top:95%;">Close</button>
+
+
+  
+</div>
+<script>
+   var ob = {};
+    ob.trks = [];
+/*
+var strk="A1,A2,A3,A5,A6,A10,A100,A101,A102,A103,A104,A11,A13,A15,A16,A17,A18,A19,A20,A200,A201,A202,A203,A229,A24,A25,A28,A300,A301,A400,D70,EV1,FL15(YELLOW),FL16(TOYOTA),P14FORD,P18GMC.P27S10,TRK21,TRK22,TRK23"
+var ar=strk.split(",");
+for(var i=0;i<ar.length;i++){
+    var o={};
+    o.truck=ar[i];
+    o.greasing={body:[],chassy:[]};
+    o.reparings=[];
+    o.info={Licence_Plate:"",vin:"",Reg_Stiker:"",cng_date:"",Last_milage:0};
+    o.index=i;
+//    es.appendChild(crTag(o));
+
+    ob.trks.push(o)
+}
+
+localStorage.setItem("grs", JSON.stringify(ob))
+*/
+
+//alert(JSON.stringify(ob))
+
+  sc = localStorage.getItem("grs");
+    if (sc === null) {
+        
+         localStorage.setItem("grs", JSON.stringify(ob))
+        alert(sc)
+    }
+    else{
+        ob=JSON.parse(sc)
+      //  alert(sc)
+        ar=ob.trks;
+   for(var i=0;i<ar.length;i++){
+ 
+    var o=ar[i];
+ 
+    es.appendChild(crTag(o));
+
+}     
+        
+        
+        
+        
+    }
+
+
+
+function crTag(trk){
+
+    var p = document.createElement("button");
+                p.setAttribute("class", "cb");
+                p.obj=trk;
+                p.innerHTML=trk.truck
+                p.onclick=function(){
+                  //  alert(this.value);
+                    dedit.obj=this.obj;
+                    ti.innerHTML=this.obj.truck;
+                    
+                    desc.value=JSON.stringify(this.obj.info).replace(/}/g,"").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"")
+                    dedit.style.display="block";
+                    var arb=this.obj.greasing.body;var arc=this.obj.greasing.chassy;
+                 //   alert(arb.length)
+
+                    for(var i=0;i<arb.length;i++){
+                        hbody.innerHTML+="<option>"+arb[i]+"</option>";                        
+                    }
+                    for(var i=0;i<arc.length;i++){
+                        hchassy.innerHTML+="<option>"+arc[i]+"</option>";                        
+                    }                   
+                    
+                 //   alert(this.value)
+                    
+                }
+           //     p.readOnly=true;
+                var aa=JSON.stringify(trk).replace(/}/g,"\n}").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"\n{\n")
+                 p.value = aa;
+                 p.style = "border-color:#0f0;";
+                 return p;
+
+}
+function search(v){
+    v=v.toUpperCase();
+    var trks=es.children;
+  //  alert(trks.length)
+ for(var i=0;i<trks.length;i++){
+     var o=trks[i];
+     var s=JSON.stringify(o.obj).toUpperCase();
+     if(s.indexOf(v)>-1){
+         o.style.opacity=1;
+       //  o.style.boxShadow="-18px 14px 14px 1px rgba(0, 0, 0, 0.14);"
+     }
+else{
+    o.style.opacity=.3;
+  //  o.style.boxShadow="none"
+}
+
+ }
+
+
+}
+
+function update(o){
+    alert(dategrbody.value)
+     if(dategrbody.value!="") o.greasing.body.push(dategrbody.value);
+    if(dategrchassy.value!="")o.greasing.chassy.push(dategrchassy.value);
+    alert(JSON.stringify(ob));
+    localStorage.setItem("grs", JSON.stringify(ob))
+    
+    
+}
+/*
+    var sc = "";
+    sc = localStorage.getItem("grs");
+    if (sc === null) {
+        var sc = prompt("Paste text");
+        if (sc.indexOf("+){") === -1) alert("Wrong text, try again");
+        else localStorage.setItem("grs", sc)
+        alert(sc)
+    }
+  
+    //var n = prompt("?");
+
+    var st = "";
+ 
+    //eval(sc);
+
+
+
+
+    getC = function(callback) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", link, false);
+        xhttp.send();
+        if (callback != undefined) callback(JSON.parse(xhttp.responseText).cont);
+        else st = JSON.parse(xhttp.responseText).cont;
+    }
+
+    if (n != null) getC(function(r) {
+        st = tradC(r);
+        if (st.indexOf("\n****************") === -1) {
+            alert("Check the pin, doesn't looks right");
+            window.location.reload()
+        } else {
+            var a = st.split("****************");
+
+            var loc = localStorage.getItem("fes");
+            var al=[];
+            if (loc === null) localStorage.setItem("fes", st);
+            else {
+                al = loc.split("****************");
+                var ms = "*** Check, there has been an update...";
+                if (a.length > al.length) ms += "\n\nAn event has been added";
+                if (a.length < al.length) ms += "\n\nAn event has been deleted";
+                if (loc != st) alert(ms);
+
+                localStorage.setItem("fes", st);
+
+
+            }
+
+            for (var i = 0; i < a.length; i++) {
+                var aa = a[i];
+                var f1=aa.slice(aa.indexOf("Fecha:"),aa.indexOf("Horas"));
+       
+                  for (var ii = 0; ii < al.length; ii++) {
+                                 
+                var f2=al[ii].slice(al[ii].indexOf("Fecha:"),al[ii].indexOf("Horas"));
+                if (f1 === f2 && al[ii]!=a[i]) alert(al[ii] + "\n\nThis event has been updated to: \n\n" + aa);
+                   
+                  }
+       
+       
+                var p = document.createElement("textarea");
+                p.setAttribute("class", "ce");
+                p.readOnly=true;
+                
+
+                p.value = aa;p.style = "border-color:#0f0;"
+                if (aa.toUpperCase().indexOf("-PRESENTACION") > -1) p.style = "background:#f0fff0;border-color:red;";
+                if (aa.toUpperCase().indexOf("***DONE") > -1) {
+                    
+                p.style = "border-color:blue; text-decoration: line-through;  ";//
+              // p.value= p.value.strike();
+                }
+                else{
+                    if (aa.toUpperCase().indexOf("PENDING") > -1) p.style = "background:#fffff0;border-color:yellow;";
+                    if (aa.toUpperCase().indexOf("RESERVADO") > -1) {
+                        p.style = "background-size:100% 100%;background-image:url(https://static.vecteezy.com/system/resources/previews/033/303/637/non_2x/red-color-diagonal-stripe-lines-crosswise-pattern-background-free-png.png);border-color:yellow;";
+                    //    p.appendChild(document.createElement("img").src="");
+                    }
+                    
+                    
+                }
+                es.appendChild(p);
+            }
+
+        }
+    });
+
+
+    function reset() {
+        if (confirm("aAll information will be DELETED, Do you want to continue??")) {
+            sc = localStorage.removeItem("c");
+            window.location.reload()
+        }
+    }
+
+    function diff(a, b) {
+        return b.split(a).join('');
+    }*/
+</script>
+
+</html>
