@@ -175,6 +175,7 @@ function crTag(trk){
                     dedit.style.display="block";
                     hbody.innerHTML="";
                     hchassy.innerHTML="";
+                    note.value=this.obj.note;
                     var arb=this.obj.greasing.body;var arc=this.obj.greasing.chassy;
  
                     for(var i=0;i<arb.length;i++){
@@ -217,9 +218,11 @@ function update(o){
    // alert(dategrbody.value)
      if(dategrbody.value!="") o.greasing.body.push(dategrbody.value);
     if(dategrchassy.value!="")o.greasing.chassy.push(dategrchassy.value);
+    o.note=note.value;
   //  alert(JSON.stringify(ob));
     localStorage.setItem("grs", JSON.stringify(ob));
     UpdateJ(link,ob);  
+    dedit.style.display="none";
     
     
 }
