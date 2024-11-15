@@ -101,6 +101,8 @@ Machanic:
   
 </div>
 <script>
+
+   var link="https://jsonblob.com/api/1306985330501345280"
    var ob = {};
     ob.trks = [];
 /*
@@ -130,8 +132,9 @@ localStorage.setItem("grs", JSON.stringify(ob))
         alert(sc)
     }
     else{
-        ob=JSON.parse(sc)
+    //    ob=JSON.parse(sc)
       //  alert(sc)
+      GetJ(link,function(r){ob=r
         ar=ob.trks;
    for(var i=0;i<ar.length;i++){
  
@@ -139,9 +142,11 @@ localStorage.setItem("grs", JSON.stringify(ob))
  
     es.appendChild(crTag(o));
 
-}     
+}     })
         
-        
+//      UpdateJ(link,ob);  
+
+
         
         
     }
@@ -211,6 +216,50 @@ function update(o){
     
     
 }
+
+function GetJ(url, callback) {
+
+            //var url  = "http://localhost:8080/api/v1/users";
+            var xhr = new XMLHttpRequest()
+            xhr.open('GET', url + '/1', true)
+            xhr.onload = function() {
+                //         (xhr.responseText)
+                var users = JSON.parse(xhr.responseText);
+                //     var obb=decoding(users.prim);
+
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    callback(users);
+                } else {
+                    console.error(users);
+                }
+            }
+            xhr.send(null);
+        }
+
+         // Update a user
+        function UpdateJ(url, ob, callback) {
+
+            json = JSON.stringify(ob);
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", url + '/12', true);
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.onload = function() {
+                var users = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    //  alert("Tu Forma ha sido Enviada");
+                    if (callback != undefined) callback(users);
+                } else {
+                    (users);
+                }
+            }
+            xhr.send(json);
+        }
+
+
+
+
+
+
 /*
     var sc = "";
     sc = localStorage.getItem("grs");
