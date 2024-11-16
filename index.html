@@ -72,11 +72,22 @@ font-weight:bold;
         display:none;
         
     }
+    #dgre{
+        border-style: solid;
+        width: 44%;
+        overflow: auto;
+    }
+    #soil{
+        position: relative;
+        border-style: solid;
+        width: 44%;
+        overflow: auto;
+        right:2%; 
+        height: 20%;     
+    }
 </style>
 Search<input id="isearch" oninput="search(this.value)">
 
-
-<button id="res" onclick="reset()">Reset</button>
 <div id="todo">
 
 
@@ -96,16 +107,22 @@ Options<select id="sops" oninput="selOpc(this.selectedIndex)">
 
 </select>
 <textarea id="desc" style='width:100%;height:20%;' readonly></textarea><br><br>
+<div id="dgre">
 <select id="hbody" oninput="alert(this.value)"></select> Body Historial<br>
 <select id="hchassy" oninput="alert(this.value)"></select> Chassy Historia:<br><br>
 
 Greasing Date of Body<br>
 <input id="dategrbody" type="date"></input> <br><br>Greasing Date of Chassy<br>
-<input id="dategrchassy" type="date"></input> <br> <br>
+<input id="dategrchassy" type="date"></input> 
+</div>
+<div id="soil">
+
+</div>
+<br> <br>
 Machanic:
 <input id="mecanico" placeholder="Andres"></input><br><br>
 <textarea id="note" style="width:98%;height:30%;"></textarea>
-<button onclick="update(dedit.obj)" style="position:absolute;top:95%;left:5%;color:red;">Update</button>
+<button onclick="update(dedit.obj)" style="position:absolute;top:95%;left:5%;color:white;background: red;">Update</button>
 <button onclick="dedit.style.display='none'" style="position:absolute;top:95%;right:5%;">Close</button>
 
 
