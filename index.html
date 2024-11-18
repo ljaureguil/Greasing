@@ -158,10 +158,8 @@ Options<select id="sops" oninput="selOpc(this.selectedIndex)">
 <select id="smec" oninput=""  style="width:40%"> 
     <option>Andres</option>
     <option>Lauro</option>
-    <option>mec3</option>
-    <option>mec4</option>
-
-
+    <option>Other</option>
+ 
 </select> Mechanic<br>
 <input id="miles" type="number" style="width:40%"/> Miles (*Recomended)
 <br>Description (*Recomended):
@@ -460,13 +458,16 @@ function GetJ(url, callback) {
 
 
 function addEv(trk){
+    var m=smec.value;
     if(devent.value.indexOf("-")===-1){alert("Date is required\n\nSet a date and try again");return;}
-    
+     if(m==="Other") m=prompt("Type Mechanic Name");
+    if(m===null) m="Other ??"
+  alert(m)
     var ev={};
     ev.truck=trk.truck;
     ev.type=sevent.value;
     ev.date=devent.value;
-    ev.mecanic=smec.value;
+     ev.mecanic=m;
     ev.miles=miles.value;
     ev.note=note.value;
     ev.created=new Date();
