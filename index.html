@@ -11,6 +11,13 @@
 body{
  background:white;   
 }
+select{
+    margin:8px
+}
+button{
+    margin:8px;
+    
+}
     #todo {
 
         width: 100%;
@@ -64,7 +71,7 @@ font-weight:bold;
         overflow:auto;
         width:80%;
         height:70%;
-        top:10%;
+        top:8%;
         left:10%;
         border-style:solid;
         background:white;
@@ -78,13 +85,41 @@ font-weight:bold;
         overflow: auto;
     }
     #soil{
-        position: relative;
-        border-style: solid;
-        width: 44%;
+       // position: relative;
+      padding:5px;
+        width: 100%;
         overflow: auto;
-        right:2%; 
-        height: 20%;     
+        font-size:14px;
+       // right:2%; 
+       // height: 30%;     
     }
+    #dshowE{
+        position:absolute;
+        overflow:auto;
+        width:80%;
+        height:70%;
+        top:10%;
+        left:10%;
+        border-style:solid;
+        background:white;
+       // padding:5px;
+        display:none;
+
+    }
+    .ce {
+        width: 70%;
+        height: 25%;
+        font-size:10px;
+        font-weight:bold;
+
+        color: black;
+        background-color: white;
+        padding: 5px;
+        margin: 15px;
+        border-radius: 5px;
+        box-shadow: -18px 14px 14px 1px rgba(0, 0, 0, 0.14);
+    }
+
 </style>
 Search<input id="isearch" oninput="search(this.value)">
 
@@ -106,33 +141,59 @@ Options<select id="sops" oninput="selOpc(this.selectedIndex)">
     <option></option>
 
 </select>
-<textarea id="desc" style='width:100%;height:20%;' readonly></textarea><br><br>
-<div id="dgre">
-<select id="hbody" oninput="alert(this.value)"></select> Body Historial<br>
-<select id="hchassy" oninput="alert(this.value)"></select> Chassy Historia:<br><br>
 
-Greasing Date of Body<br>
-<input id="dategrbody" type="date"></input> <br><br>Greasing Date of Chassy<br>
-<input id="dategrchassy" type="date"></input> 
-</div>
-<div id="soil">
+<textarea id="desc" style='width:100%;height:20%;background:#fffff3;' readonly></textarea><br>
+<div id="soil"> . . . E V E N T S (<span id="nev"></span>). . . <button onclick="showEv(dedit.obj)" style="width: 35%;margin:5px;background-color: red;color:white;">Show Event</button><br>
+<br>
+<input id="devent" type="date" style="width:40%"></input> Date<br>
+<select id="sevent" oninput=""  style="width:40%">  
+<option>Body Greasing</option>
+<option>Chassy Greasing
+<option>Oil check(Add)</option>
+<option>Service</option>
+<option>Inspect</option>
+<option>Repair</option>
+<option>Others</option>
+</select> Type<br>
+<select id="smec" oninput=""  style="width:40%"> 
+    <option>Andres</option>
+    <option>Lauro</option>
+    <option>mec3</option>
+    <option>mec4</option>
+
+
+</select> Mechanic
+<input id="miles" type="number" style="width:40%"/> Miles (*Recomended)
+<br>Description (*Recomended):
+<textarea id="note" style="width:100%;height:15%;"></textarea><br>
+
+<button onclick="addEv(dedit.obj)" style="width: 98%;color:white;background:blue;">Add Event</button>
+
 
 </div>
-<br> <br>
-Machanic:
-<input id="mecanico" placeholder="Andres"></input><br><br>
-<textarea id="note" style="width:98%;height:30%;"></textarea>
-<button onclick="update(dedit.obj)" style="position:absolute;top:95%;left:5%;color:white;background: red;">Update</button>
-<button onclick="dedit.style.display='none'" style="position:absolute;top:95%;right:5%;">Close</button>
+
+
+<button onclick="update(dedit.obj)" style="width:40%;position:absolute;bottom:1%;left:2%;color:white;background: red;">Update</button>
+<button onclick="dedit.style.display='none'" style="position:absolute;bottom:1%;right:2%;width:40%">Close</button>
 
 
   
 </div>
+<div id="dshowE">
+    Search<input id="isearchev" oninput="searchev(this.value)"> 
+    <div id="evns"></div>
+<button onclick="dshowE.style.display='none';">Close</button>
+
+</div>
 <script>
+var tevent="";
+
 
    var link="https://jsonblob.com/api/1306985330501345280"
    var ob = {};
     ob.trks = [];
+    obev={};
+
 /*
 var strk="A1,A2,A3,A5,A6,A10,A100,A101,A102,A103,A104,A11,A13,A15,A16,A17,A18,A19,A20,A200,A201,A202,A203,A229,A24,A25,A28,A300,A301,A400,D70,EV1,FL15(YELLOW),FL16(TOYOTA),P14FORD,P18GMC.P27S10,TRK21,TRK22,TRK23"
 var ar=strk.split(",");
@@ -177,31 +238,27 @@ UpdateJ(link,ob,function(){alert(JSON.stringify(ob))});
     }
 
 function crTag(trk){
+    
+ //   trk.greasing=undefined;
+ //   trk.reparings=undefined;
+ //alert(JSON.stringify(trk))
+  
 
     var p = document.createElement("button");
                 p.setAttribute("class", "cb");
                 p.obj=trk;
-                var fs="<br><font size='1'>Body "+trk.greasing.body[0]+"<br>Chassy:"+trk.greasing.chassy[0]+"</font>";
                 p.innerHTML=trk.truck;//+fs
                 p.onclick=function(){
-                  //  alert(this.value);
+
+                    nev.innerHTML=this.obj.events.length;
                     dedit.obj=this.obj;
+    
                     ti.innerHTML=this.obj.truck//
                     
                     desc.value=JSON.stringify(this.obj.info).replace(/}/g,"").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"")
                     dedit.style.display="block";
-                    hbody.innerHTML="";
-                    hchassy.innerHTML="";
-                    note.value=this.obj.note;
-                    var arb=this.obj.greasing.body;var arc=this.obj.greasing.chassy;
  
-                    for(var i=0;i<arb.length;i++){
-                        hbody.innerHTML+="<option>"+arb[i]+"</option>";                        
-                    }
-                    for(var i=0;i<arc.length;i++){
-                        hchassy.innerHTML+="<option>"+arc[i]+"</option>";                        
-                    }                   
-                   
+                                  
                 }
 
                 var aa=JSON.stringify(trk).replace(/}/g,"\n}").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"\n{\n")
@@ -210,6 +267,70 @@ function crTag(trk){
                  return p;
 
 }
+
+function crEv(e){
+    var aa=JSON.stringify(e).replace(/}/g,"\n").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"\n").replace(/:/g,":  ")
+
+var p = document.createElement("textarea");
+p.obj=e;
+p.setAttribute("class", "ce");
+p.readOnly=true;
+ p.value = aa;p.style = "border-color:#0f0;";
+ 
+ p.onclick=function(){
+ //alert(e.type)
+ if(confirm("Do you want to delete event?")){
+     if(prompt("This require a password, type it")==="andres123"){
+//this.obj=null;
+var ar=this.parentNode.events;
+ar.splice(ar.indexOf(this.obj),1);
+
+ this.parentNode.removeChild(this)
+//dshowE.style.display="none";
+ alert("Update it to save changes "+ar.indexOf(this.obj))
+ 
+ }
+ }
+ 
+ 
+ }
+ 
+ 
+ return p;
+}
+
+function showEv(trk){
+    while (evns.firstChild) {evns.removeChild(evns.lastChild);}
+ 
+  dshowE.style.display="block"
+    var es=trk.events;
+    evns.events=es;
+ for(var i=0;i<es.length;i++){
+     var oe=crEv(es[i]);
+     oe.index=i;
+   evns.appendChild(oe);
+
+ }
+}
+function searchev(v){
+    v=v.toUpperCase();
+    var es=evns.children;
+  //  alert(trks.length)
+ for(var i=0;i<es.length;i++){
+     var o=es[i];
+     var s=JSON.stringify(o.obj).toUpperCase();
+     if(s.indexOf(v)>-1){
+         o.style.display="block";
+       //  o.style.boxShadow="-18px 14px 14px 1px rgba(0, 0, 0, 0.14);"
+     }
+else{
+    o.style.display="none";
+  //  o.style.boxShadow="none"
+
+}
+ }
+}
+
 function search(v){
     v=v.toUpperCase();
     var trks=es.children;
@@ -233,9 +354,9 @@ else{
 
 function update(o){
    // alert(dategrbody.value)
-     if(dategrbody.value!="") o.greasing.body.push(dategrbody.value);
-    if(dategrchassy.value!="")o.greasing.chassy.push(dategrchassy.value);
-    o.note=note.value;
+ //    if(dategrbody.value!="") o.greasing.body.push(dategrbody.value);
+ //   if(dategrchassy.value!="")o.greasing.chassy.push(dategrchassy.value);
+ //   o.note=note.value;
   //  alert(JSON.stringify(ob));
     localStorage.setItem("grs", JSON.stringify(ob));
     UpdateJ(link,ob);  
@@ -342,110 +463,25 @@ function GetJ(url, callback) {
         }
 
 
+function addEv(trk){
+    if(devent.value=""){alert("Set a date and try again");return;}
+    
+    var ev={};
+    ev.truck=trk.truck;
+    ev.type=sevent.value;
+    ev.date=devent.value;
+    ev.mecanic=smec.value;
+    ev.miles=miles.value;
+    ev.note=note.value;
+    ev.created=new Date();
+    trk.events.push(ev);
+    alert("Don't forget to Update it");
+ //   dedit.display="none"
+
+}
 
 
 
-
-/*
-    var sc = "";
-    sc = localStorage.getItem("grs");
-    if (sc === null) {
-        var sc = prompt("Paste text");
-        if (sc.indexOf("+){") === -1) alert("Wrong text, try again");
-        else localStorage.setItem("grs", sc)
-        alert(sc)
-    }
-  
-    //var n = prompt("?");
-
-    var st = "";
- 
-    //eval(sc);
-
-
-
-
-    getC = function(callback) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", link, false);
-        xhttp.send();
-        if (callback != undefined) callback(JSON.parse(xhttp.responseText).cont);
-        else st = JSON.parse(xhttp.responseText).cont;
-    }
-
-    if (n != null) getC(function(r) {
-        st = tradC(r);
-        if (st.indexOf("\n****************") === -1) {
-            alert("Check the pin, doesn't looks right");
-            window.location.reload()
-        } else {
-            var a = st.split("****************");
-
-            var loc = localStorage.getItem("fes");
-            var al=[];
-            if (loc === null) localStorage.setItem("fes", st);
-            else {
-                al = loc.split("****************");
-                var ms = "*** Check, there has been an update...";
-                if (a.length > al.length) ms += "\n\nAn event has been added";
-                if (a.length < al.length) ms += "\n\nAn event has been deleted";
-                if (loc != st) alert(ms);
-
-                localStorage.setItem("fes", st);
-
-
-            }
-
-            for (var i = 0; i < a.length; i++) {
-                var aa = a[i];
-                var f1=aa.slice(aa.indexOf("Fecha:"),aa.indexOf("Horas"));
-       
-                  for (var ii = 0; ii < al.length; ii++) {
-                                 
-                var f2=al[ii].slice(al[ii].indexOf("Fecha:"),al[ii].indexOf("Horas"));
-                if (f1 === f2 && al[ii]!=a[i]) alert(al[ii] + "\n\nThis event has been updated to: \n\n" + aa);
-                   
-                  }
-       
-       
-                var p = document.createElement("textarea");
-                p.setAttribute("class", "ce");
-                p.readOnly=true;
-                
-
-                p.value = aa;p.style = "border-color:#0f0;"
-                if (aa.toUpperCase().indexOf("-PRESENTACION") > -1) p.style = "background:#f0fff0;border-color:red;";
-                if (aa.toUpperCase().indexOf("***DONE") > -1) {
-                    
-                p.style = "border-color:blue; text-decoration: line-through;  ";//
-              // p.value= p.value.strike();
-                }
-                else{
-                    if (aa.toUpperCase().indexOf("PENDING") > -1) p.style = "background:#fffff0;border-color:yellow;";
-                    if (aa.toUpperCase().indexOf("RESERVADO") > -1) {
-                        p.style = "background-size:100% 100%;background-image:url(https://static.vecteezy.com/system/resources/previews/033/303/637/non_2x/red-color-diagonal-stripe-lines-crosswise-pattern-background-free-png.png);border-color:yellow;";
-                    //    p.appendChild(document.createElement("img").src="");
-                    }
-                    
-                    
-                }
-                es.appendChild(p);
-            }
-
-        }
-    });
-
-
-    function reset() {
-        if (confirm("aAll information will be DELETED, Do you want to continue??")) {
-            sc = localStorage.removeItem("c");
-            window.location.reload()
-        }
-    }
-
-    function diff(a, b) {
-        return b.split(a).join('');
-    }*/
 </script>
 
 </html>
