@@ -464,7 +464,7 @@ function GetJ(url, callback) {
 
 
 function addEv(trk){
-    if(devent.value=""){alert("Set a date and try again");return;}
+    if(devent.value.indexOf("-")===-1){alert("Date is required\n\nSet a date and try again");return;}
     
     var ev={};
     ev.truck=trk.truck;
