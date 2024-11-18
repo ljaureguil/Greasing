@@ -145,10 +145,12 @@ Options<select id="sops" oninput="selOpc(this.selectedIndex)">
 <textarea id="desc" style='width:100%;height:20%;background:#fffff3;' readonly></textarea><br>
 <div id="soil"> . . . E V E N T S (<span id="nev"></span>). . . <button onclick="showEv(dedit.obj)" style="width: 35%;margin:5px;background-color: red;color:white;">Show Event</button><br>
 <br>
-<input id="devent" type="date" style="width:40%"></input> Date<br>
+<input id="devent" type="date" style="width:40%"></input> Date
+<button id="radt" onclick="setTime()"/>Add time</button>
+<br>
 <select id="sevent" oninput=""  style="width:40%">  
 <option>Body Greasing</option>
-<option>Chassy Greasing
+<option>Chassy Greasing</option>
 <option>Oil check(Add)</option>
 <option>Service</option>
 <option>Inspect</option>
@@ -166,15 +168,11 @@ Options<select id="sops" oninput="selOpc(this.selectedIndex)">
 <textarea id="note" style="width:100%;height:15%;"></textarea><br>
 
 <button onclick="addEv(dedit.obj)" style="width: 98%;color:white;background:blue;">Add Event</button>
-
-
 </div>
 
 
 <button onclick="update(dedit.obj)" style="width:40%;position:absolute;bottom:1%;left:2%;color:white;background: red;">Update</button>
 <button onclick="dedit.style.display='none'" style="position:absolute;bottom:1%;right:2%;width:40%">Close</button>
-
-
   
 </div>
 <div id="dshowE">
@@ -236,32 +234,39 @@ UpdateJ(link,ob,function(){alert(JSON.stringify(ob))});
     }
 
 function crTag(trk){
-    
- //   trk.greasing=undefined;
- //   trk.reparings=undefined;
- //alert(JSON.stringify(trk))
-  
-
     var p = document.createElement("button");
-                p.setAttribute("class", "cb");
+                 p.setAttribute("class", "cb");
                 p.obj=trk;
+                var nee=trk.events.length;
+               
                 p.innerHTML=trk.truck;//+fs
                 p.onclick=function(){
-
-                    nev.innerHTML=this.obj.events.length;
+                    var nee=this.obj.events.length;
+                    nev.innerHTML=nee
+                    if(nee>0) p.innerHTML="<span style='font-size:8px;color:red;'>"+nee+"</span>"+this.obj.truck;
                     dedit.obj=this.obj;
     
-                    ti.innerHTML=this.obj.truck//
+                    ti.innerHTML=this.obj.truck;
                     
                     desc.value=JSON.stringify(this.obj.info).replace(/}/g,"").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"")
                     dedit.style.display="block";
- 
-                                  
+                                 
                 }
 
                 var aa=JSON.stringify(trk).replace(/}/g,"\n}").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"\n{\n")
                  p.value = aa;
-                 p.style = "border-color:#0f0;";
+                 var evs=p.obj.events.length;
+                 var lastbgr,lastcgr;
+                 for(var i=0;i<evs.length;i++){
+                     if(evs[i].type==="Body Greasing") lastbgr=evs[i].date;
+                     if(evs[i].type==="Chassy Greasing") lastcgr=evs[i].date;
+                 }
+  
+                 if(nee>0){
+                      p.style = "border-color:#0f0;";
+                  p.innerHTML="<span style='font-size:8px;color:red;>'>"+nee+"</span>"+p.innerHTML;
+                 }
+
                  return p;
 
 }
@@ -300,6 +305,8 @@ ar.splice(ar.indexOf(this.obj),1);
 function showEv(trk){
     while (evns.firstChild) {evns.removeChild(evns.lastChild);}
  
+ radt.style.backgound="gray";
+
   dshowE.style.display="block"
     var es=trk.events;
     evns.events=es;
@@ -462,7 +469,7 @@ function addEv(trk){
     if(devent.value.indexOf("-")===-1){alert("Date is required\n\nSet a date and try again");return;}
      if(m==="Other") m=prompt("Type Mechanic Name");
     if(m===null) m="Other ??"
-  alert(m)
+ // alert(m)
     var ev={};
     ev.truck=trk.truck;
     ev.type=sevent.value;
@@ -470,10 +477,36 @@ function addEv(trk){
      ev.mecanic=m;
     ev.miles=miles.value;
     ev.note=note.value;
+    ev.from=radt.from;
+    ev.to=radt.to;
     ev.created=new Date();
+    
     trk.events.push(ev);
    if(confirm("Do you want to save changes?")) update()
- //   dedit.display="none"
+ 
+}
+
+function setTime(e){
+ 
+    radt.checked=false;
+    alert("*Type time in format 0 to 24")
+  var i=prompt("From: (*0 to 24 hours)")
+  var f=prompt("To:");
+  if(i!=null && f!=null){
+    if(isNaN(i) ||isNaN(f)){
+        alert("Something wrong, should be numbers");
+        return;
+
+    }
+    else{
+              radt.style.backgound="green";
+        radt.from=i;
+        radt.to=f;
+  
+       
+    }
+  }
+  else {alert("You need to set time. Try again");}
 
 }
 
