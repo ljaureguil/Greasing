@@ -287,7 +287,7 @@ ar.splice(ar.indexOf(this.obj),1);
 
  this.parentNode.removeChild(this)
 //dshowE.style.display="none";
- alert("Update it to save changes "+ar.indexOf(this.obj))
+ if(confirm("Do you want to save changes?")) update()
  
  }
  }
@@ -352,14 +352,10 @@ else{
 
 }
 
-function update(o){
-   // alert(dategrbody.value)
- //    if(dategrbody.value!="") o.greasing.body.push(dategrbody.value);
- //   if(dategrchassy.value!="")o.greasing.chassy.push(dategrchassy.value);
- //   o.note=note.value;
-  //  alert(JSON.stringify(ob));
+function update(){
+
     localStorage.setItem("grs", JSON.stringify(ob));
-    UpdateJ(link,ob);  
+    UpdateJ(link,ob,function(){alert("Changes have been saved")});  
     dedit.style.display="none";
     
     
@@ -475,7 +471,7 @@ function addEv(trk){
     ev.note=note.value;
     ev.created=new Date();
     trk.events.push(ev);
-    alert("Don't forget to Update it");
+   if(confirm("Do you want to save changes?")) update()
  //   dedit.display="none"
 
 }
