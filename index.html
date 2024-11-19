@@ -77,6 +77,7 @@ font-weight:bold;
         background:white;
         padding:5px;
         display:none;
+        box-shadow: -18px 14px 14px 1px rgba(0, 0, 0, 0.34);
         
     }
     #dgre{
@@ -90,8 +91,8 @@ font-weight:bold;
         width: 100%;
         overflow: auto;
         font-size:14px;
-       // right:2%; 
-       // height: 30%;     
+
+ 
     }
     #dshowE{
         position:absolute;
@@ -104,7 +105,7 @@ font-weight:bold;
         background:white;
        // padding:5px;
         display:none;
-
+        box-shadow: -18px 14px 14px 1px rgba(0, 155, 0, 0.24);
     }
     .ce {
         width: 70%;
@@ -122,6 +123,7 @@ font-weight:bold;
 
 </style>
 Search<input id="isearch" oninput="search(this.value)">
+<button onclick="addTrk()">Add Trk</button>
 
 <div id="todo">
 
@@ -134,8 +136,8 @@ Options<select id="sops" oninput="selOpc(this.selectedIndex)">
     <option>Choose an option</option>
     <option>Edit Truck Info.</option>
     <option>Reset Truck object</option>
-    <option>Clear body Historial</option>
-    <option>Clear Chassy Historial</option>
+    <option></option>
+    <option>Delete this truck</option>
 
     <option></option>
     <option></option>
@@ -143,7 +145,7 @@ Options<select id="sops" oninput="selOpc(this.selectedIndex)">
 </select>
 
 <textarea id="desc" style='width:100%;height:20%;background:#fffff3;' readonly></textarea><br>
-<div id="soil"> . . . E V E N T S (<span id="nev"></span>). . . <button onclick="showEv(dedit.obj)" style="width: 35%;margin:5px;background-color: red;color:white;">Show Event</button><br>
+<div id="soil"> . . . E V E N T S (<span id="nev"></span>). . . <button onclick="showEv(dedit.obj)" style="width: 35%;margin:5px;background-color: red;color:white;">Show Event</button>
 <br>
 <input id="devent" type="date" style="width:40%"></input> Date
 <button id="radt" onclick="setTime()"/>Add time</button>
@@ -165,13 +167,13 @@ Options<select id="sops" oninput="selOpc(this.selectedIndex)">
 </select> Mechanic<br>
 <input id="miles" type="number" style="width:40%"/> Miles (*Recomended)
 <br>Description (*Recomended):
-<textarea id="note" style="width:100%;height:15%;"></textarea><br>
+<textarea id="note" style="width:98%;height:12%;"></textarea><br>
 
-<button onclick="addEv(dedit.obj)" style="width: 98%;color:white;background:blue;">Add Event</button>
+<button onclick="addEv(dedit.obj)" style="width: 96%;color:white;background:blue;">Add Event</button>
 </div>
 
 
-<button onclick="update(dedit.obj)" style="width:40%;position:absolute;bottom:1%;left:2%;color:white;background: red;">Update</button>
+<button onclick="update()" style="width:40%;position:absolute;bottom:1%;left:2%;color:white;background: red;">Update</button>
 <button onclick="dedit.style.display='none'" style="position:absolute;bottom:1%;right:2%;width:40%">Close</button>
   
 </div>
@@ -357,12 +359,13 @@ else{
 
 }
 
-function update(){
+function update(callback){
 
     localStorage.setItem("grs", JSON.stringify(ob));
-    UpdateJ(link,ob,function(){alert("Changes have been saved")});  
+    UpdateJ(link,ob,function(){alert("Changes have been saved");   if(callback!=undefined) callback()});  
     dedit.style.display="none";
-    
+ 
+   // window.location.reload();
     
 }
 
@@ -388,10 +391,19 @@ function selOpc(op){
           if(prompt("For this option Type password")==="andres123"){    
      if(confirm("Are you sure, it will delete all information of this truck")) {
 
-     o.greasing={body:[],chassy:[]};
-    o.reparings=[];
-    o.info={Licence_Plate:"",vin:"",Reg_Stiker:"",cng_date:"",Last_milage:0};
-    o.note=""; 
+    var tk=   {
+      "truck": o.truck,
+      "info": {
+        "Licence_Plate": "",
+        "vin": "",
+        "Reg_Stiker": "",
+        "cng_date": "",
+        "Last_milage": 0
+      },
+      "note": "",
+      "events": []
+    }
+
     desc.value=JSON.stringify(o.info).replace(/}/g,"").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"");
     
      alert(o.truck+" Has been reseted, press update to save changes")
@@ -399,21 +411,23 @@ function selOpc(op){
 }
 else alert("Wrong password")
  }
- if(op==3){
-    if(prompt("For this option Type password")==="andres123"){    
-        o.greasing.body=[];
-        alert(o.truck+"Body history Has been reseted, press update to save changes")    
-    }
-    else alert("Wrong password")  
- }
  if(op==4){
-    if(prompt("For this option Type password")==="andres123"){    
-        o.greasing.chassy=[];
-        alert(o.truck+"Chassy history Has been reseted, press update to save changes")    
-}
-else alert("Wrong password")
+   
+     var pw=prompt("A password is required, type password:")
+     if(pw==="andres12345"){
+         var inde=ob.trks.indexOf(o);
+         alert(inde);
+         ob.trks.splice(inde,1);
+        // alert("To finish don't forget to press update button");
+       
+        update(function(){alert("App will be reloaded");window.location.reload();});
+     }
      
-}
+     
+     
+     
+ }
+
 if(op==2){
 
      
@@ -510,6 +524,30 @@ function setTime(e){
 
 }
 
+function addTrk(){
+    var n=prompt("Type Truck Id")
+    if(n!=null){
+    var tk=   {
+      "truck": n,
+      "info": {
+        "Licence_Plate": "",
+        "vin": "",
+        "Reg_Stiker": "",
+        "cng_date": "",
+        "Last_milage": 0
+      },
+      "note": "",
+      "events": []
+    }
+    
+    ob.trks.push(tk);
+    es.appendChild(crTag(tk));
+   update();
+    
+    }
+    
+    
+}
 
 
 </script>
