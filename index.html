@@ -8,23 +8,26 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 </head>
 <style>
-body{
- background:white;   
-}
-select{
-    margin:8px
-}
-button{
-    margin:8px;
-    
-}
+    body {
+        background: white;
+    }
+
+    select {
+        margin: 8px
+    }
+
+    button {
+        margin: 8px;
+
+    }
+
     #todo {
 
         width: 100%;
         height: 96%;
         overflow: auto;
-        margin:10px;
-        
+        margin: 10px;
+
 
     }
 
@@ -36,11 +39,11 @@ button{
         background-color: #aaffaa;
     }
 
-    .cb{
-       // width: 80%;
-     //   height: 25%;
-font-siz:22px;
-font-weight:bold;
+    .cb {
+        // width: 80%;
+        //   height: 25%;
+        font-siz: 22px;
+        font-weight: bold;
         color: black;
         background-color: white;
         padding: 5px;
@@ -66,52 +69,57 @@ font-weight:bold;
         border-radius: 5px;
         box-shadow: -12px 10px 10px 1px rgba(90, 0, 0, 0.24);
     }
-    #dedit{
-        position:absolute;
-        overflow:auto;
-        width:80%;
-        height:70%;
-        top:8%;
-        left:10%;
-        border-style:solid;
-        background:white;
-        padding:5px;
-        display:none;
+
+    #dedit {
+        position: absolute;
+        overflow: auto;
+        width: 80%;
+        height: 70%;
+        top: 8%;
+        left: 10%;
+        border-style: solid;
+        background: white;
+        padding: 5px;
+        display: none;
         box-shadow: -18px 14px 14px 1px rgba(0, 0, 0, 0.34);
-        
+
     }
-    #dgre{
+
+    #dgre {
         border-style: solid;
         width: 44%;
         overflow: auto;
     }
-    #soil{
-       // position: relative;
-      padding:5px;
+
+    #soil {
+        // position: relative;
+        padding: 5px;
         width: 100%;
         overflow: auto;
-        font-size:14px;
+        font-size: 14px;
 
- 
+
     }
-    #dshowE{
-        position:absolute;
-        overflow:auto;
-        width:80%;
-        height:70%;
-        top:10%;
-        left:10%;
-        border-style:solid;
-        background:white;
-       // padding:5px;
-        display:none;
+
+    #dshowE {
+        position: absolute;
+        overflow: auto;
+        width: 80%;
+        height: 70%;
+        top: 10%;
+        left: 10%;
+        border-style: solid;
+        background: white;
+        // padding:5px;
+        display: none;
         box-shadow: -18px 14px 14px 1px rgba(0, 155, 0, 0.24);
     }
+
     .ce {
         width: 70%;
         height: 25%;
-        font-size:10px;
-        font-weight:bold;
+        font-size: 10px;
+        font-weight: bold;
 
         color: black;
         background-color: white;
@@ -120,7 +128,6 @@ font-weight:bold;
         border-radius: 5px;
         box-shadow: -18px 14px 14px 1px rgba(0, 0, 0, 0.14);
     }
-
 </style>
 Search<input id="isearch" oninput="search(this.value)">
 <button onclick="addTrk()">Add Trk</button>
@@ -131,425 +138,438 @@ Search<input id="isearch" oninput="search(this.value)">
     <div id="es"></div>
 </div>
 <div id="dedit">
-<p id="ti" style="text-align:center"></p>
-Options<select id="sops" oninput="selOpc(this.selectedIndex)">
-    <option>Choose an option</option>
-    <option>Edit Truck Info.</option>
-    <option>Reset Truck object</option>
-    <option></option>
-    <option>Delete this truck</option>
+    <p id="ti" style="text-align:center"></p>
+    Options<select id="sops" oninput="selOpc(this.selectedIndex)">
+        <option>Choose an option</option>
+        <option>Edit Truck Info.</option>
+        <option>Reset Truck object</option>
+        <option></option>
+        <option>Delete this truck</option>
 
-    <option></option>
-    <option></option>
+        <option></option>
+        <option></option>
 
-</select>
+    </select>
 
-<textarea id="desc" style='width:100%;height:20%;background:#fffff3;' readonly></textarea><br>
-<div id="soil"> . . . E V E N T S (<span id="nev"></span>). . . <button onclick="showEv(dedit.obj)" style="width: 35%;margin:5px;background-color: red;color:white;">Show Event</button>
-<br>
-<input id="devent" type="date" style="width:40%"></input> Date
-<button id="radt" onclick="setTime()"/>Add time</button>
-<br>
-<select id="sevent" oninput=""  style="width:40%">  
-<option>Body Greasing</option>
-<option>Chassy Greasing</option>
-<option>Oil check(Add)</option>
-<option>Service</option>
-<option>Inspect</option>
-<option>Repair</option>
-<option>Others</option>
-</select> Type<br>
-<select id="smec" oninput=""  style="width:40%"> 
-    <option>Andres</option>
-    <option>Lauro</option>
-    <option>Other</option>
- 
-</select> Mechanic<br>
-<input id="miles" type="number" style="width:40%"/> Miles (*Recomended)
-<br>Description (*Recomended):
-<textarea id="note" style="width:98%;height:12%;"></textarea><br>
+    <textarea id="desc" style='width:100%;height:20%;background:#fffff3;' readonly></textarea><br>
+    <div id="soil"> . . . E V E N T S (<span id="nev"></span>). . . <button onclick="showEv(dedit.obj)" style="width: 35%;margin:5px;background-color: red;color:white;">Show Event</button>
+        <br>
+        <input id="devent" type="date" style="width:40%"></input> Date
+        <button id="radt" onclick="setTime()" />Add time</button>
+        <br>
+        <select id="sevent" oninput="" style="width:40%">
+            <option>Body Greasing</option>
+            <option>Chassy Greasing</option>
+            <option>Oil check(Add)</option>
+            <option>Service</option>
+            <option>Inspect</option>
+            <option>Repair</option>
+            <option>Others</option>
+        </select> Type<br>
+        <select id="smec" oninput="" style="width:40%">
+            <option>Andres</option>
+            <option>Lauro</option>
+            <option>Other</option>
 
-<button onclick="addEv(dedit.obj)" style="width: 96%;color:white;background:blue;">Add Event</button>
-</div>
+        </select> Mechanic<br>
+        <input id="miles" type="number" style="width:40%" /> Miles (*Recomended)
+        <br>Description (*Recomended):
+        <textarea id="note" style="width:98%;height:12%;"></textarea><br>
+
+        <button onclick="addEv(dedit.obj)" style="width: 96%;color:white;background:blue;">Add Event</button>
+    </div>
 
 
-<button onclick="update()" style="width:40%;position:absolute;bottom:1%;left:2%;color:white;background: red;">Update</button>
-<button onclick="dedit.style.display='none'" style="position:absolute;bottom:1%;right:2%;width:40%">Close</button>
-  
+    <button onclick="update()" style="width:40%;position:absolute;bottom:1%;left:2%;color:white;background: red;">Update</button>
+    <button onclick="dedit.style.display='none'" style="position:absolute;bottom:1%;right:2%;width:40%">Close</button>
+
 </div>
 <div id="dshowE">
-    Search<input id="isearchev" oninput="searchev(this.value)"> 
+    Search<input id="isearchev" oninput="searchev(this.value)">
     <div id="evns"></div>
-<button onclick="dshowE.style.display='none';">Close</button>
+    <button onclick="dshowE.style.display='none';">Close</button>
 
 </div>
 <script>
-var tevent="";
+    sc = localStorage.getItem("grs");
 
 
-   var link="https://jsonblob.com/api/1306985330501345280"
-   var ob = {};
+
+    var tevent = "";
+
+
+    var link = "https://jsonblob.com/api/1309570117713190912"
+    var ob = {};
     ob.trks = [];
-    obev={};
+    obev = {};
 
-/*
-var strk="A1,A2,A3,A5,A6,A10,A100,A101,A102,A103,A104,A11,A13,A15,A16,A17,A18,A19,A20,A200,A201,A202,A203,A229,A24,A25,A28,A300,A301,A400,D70,EV1,FL15(YELLOW),FL16(TOYOTA),P14FORD,P18GMC.P27S10,TRK21,TRK22,TRK23"
-var ar=strk.split(",");
-for(var i=0;i<ar.length;i++){
-    var o={};
-    o.truck=ar[i];
-    o.greasing={body:[],chassy:[]};
-    o.reparings=[];
-    o.info={Licence_Plate:"",vin:"",Reg_Stiker:"",cng_date:"",Last_milage:0};
-    o.note="";
-//    es.appendChild(crTag(o));
+    /*
+    var strk="A1,A2,A3,A5,A6,A10,A100,A101,A102,A103,A104,A11,A13,A15,A16,A17,A18,A19,A20,A200,A201,A202,A203,A229,A24,A25,A28,A300,A301,A400,D70,EV1,FL15(YELLOW),FL16(TOYOTA),P14FORD,P18GMC.P27S10,TRK21,TRK22,TRK23"
+    var ar=strk.split(",");
+    for(var i=0;i<ar.length;i++){
+        var o={};
+        o.truck=ar[i];
+        o.greasing={body:[],chassy:[]};
+        o.reparings=[];
+        o.info={Licence_Plate:"",vin:"",Reg_Stiker:"",cng_date:"",Last_milage:0};
+        o.note="";
+    //    es.appendChild(crTag(o));
 
-    ob.trks.push(o)
-}
+        ob.trks.push(o)
+    }
 
-localStorage.setItem("grs", JSON.stringify(ob))
-UpdateJ(link,ob,function(){alert(JSON.stringify(ob))});  
-*/
-//alert(JSON.stringify(ob))
+    localStorage.setItem("grs", JSON.stringify(ob))
+    UpdateJ(link,ob,function(){alert(JSON.stringify(ob))});  
+    */
+    //alert(JSON.stringify(ob))
 
-  sc = localStorage.getItem("grs");
+    // sc = localStorage.getItem("grs");
     if (sc === null) {
-        
-         localStorage.setItem("grs", JSON.stringify(ob))
-        alert(sc)
-    }
-    else{
-    //    ob=JSON.parse(sc)
-      //  alert(sc)
-      GetJ(link,function(r){ob=r
-        ar=ob.trks;
-   for(var i=0;i<ar.length;i++){
- 
-    var o=ar[i];
- 
-    es.appendChild(crTag(o));
+        localStorage.setItem("grs", JSON.stringify(ob))
+        //       alert(sc)
+    } else {
 
-}     })
-        
-//      UpdateJ(link,ob);  
-       
-    }
+        var ob = JSON.parse(sc)
+        ar = ob.trks;
+        for (var i = 0; i < ar.length; i++) {
 
-function crTag(trk){
-    var p = document.createElement("button");
-                 p.setAttribute("class", "cb");
-                p.obj=trk;
-                var nee=trk.events.length;
-               
-                p.innerHTML=trk.truck;//+fs
-                p.onclick=function(){
-                    var nee=this.obj.events.length;
-                    nev.innerHTML=nee
-                    if(nee>0) p.innerHTML="<span style='font-size:8px;color:red;'>"+nee+"</span>"+this.obj.truck;
-                    dedit.obj=this.obj;
-    
-                    ti.innerHTML=this.obj.truck;
-                    
-                    desc.value=JSON.stringify(this.obj.info).replace(/}/g,"").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"")
-                    dedit.style.display="block";
-                                 
-                }
+            var o = ar[i];
 
-                var aa=JSON.stringify(trk).replace(/}/g,"\n}").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"\n{\n")
-                 p.value = aa;
-                 var evs=p.obj.events.length;
-                 var lastbgr,lastcgr;
-                 for(var i=0;i<evs.length;i++){
-                     if(evs[i].type==="Body Greasing") lastbgr=evs[i].date;
-                     if(evs[i].type==="Chassy Greasing") lastcgr=evs[i].date;
-                 }
-    p.style = "border-color:#0f0;";
-                 if(nee>0){
-                    
-                  p.innerHTML="<span style='font-size:8px;color:red;>'>"+nee+"</span>"+p.innerHTML;
-                 }
+            es.appendChild(crTag(o));
 
-                 return p;
+        }
+        //  
 
-}
-
-function crEv(e){
-    var aa=JSON.stringify(e).replace(/}/g,"\n").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"\n").replace(/:/g,":  ")
-
-var p = document.createElement("textarea");
-p.obj=e;
-p.setAttribute("class", "ce");
-p.readOnly=true;
- p.value = aa;p.style = "border-color:#0f0;";
- 
- p.onclick=function(){
- //alert(e.type)
- if(confirm("Do you want to delete event?")){
-     if(prompt("This require a password, type it")==="andres123"){
-//this.obj=null;
-var ar=this.parentNode.events;
-ar.splice(ar.indexOf(this.obj),1);
-
- this.parentNode.removeChild(this)
-//dshowE.style.display="none";
- if(confirm("Do you want to save changes?")) update()
- 
- }
- }
- 
- 
- }
- 
- 
- return p;
-}
-
-function showEv(trk){
-    while (evns.firstChild) {evns.removeChild(evns.lastChild);}
- 
- radt.style.backgound="gray";
-
-  dshowE.style.display="block"
-    var es=trk.events;
-    evns.events=es;
- for(var i=0;i<es.length;i++){
-     var oe=crEv(es[i]);
-     oe.index=i;
-   evns.appendChild(oe);
-
- }
-}
-function searchev(v){
-    v=v.toUpperCase();
-    var es=evns.children;
-  //  alert(trks.length)
- for(var i=0;i<es.length;i++){
-     var o=es[i];
-     var s=JSON.stringify(o.obj).toUpperCase();
-     if(s.indexOf(v)>-1){
-         o.style.display="block";
-       //  o.style.boxShadow="-18px 14px 14px 1px rgba(0, 0, 0, 0.14);"
-     }
-else{
-    o.style.display="none";
-  //  o.style.boxShadow="none"
-
-}
- }
-}
-
-function search(v){
-    v=v.toUpperCase();
-    var trks=es.children;
-  //  alert(trks.length)
- for(var i=0;i<trks.length;i++){
-     var o=trks[i];
-     var s=JSON.stringify(o.obj).toUpperCase();
-     if(s.indexOf(v)>-1){
-         o.style.opacity=1;
-       //  o.style.boxShadow="-18px 14px 14px 1px rgba(0, 0, 0, 0.14);"
-     }
-else{
-    o.style.opacity=.3;
-  //  o.style.boxShadow="none"
-}
-
- }
-
-
-}
-
-function update(callback){
-
-    localStorage.setItem("grs", JSON.stringify(ob));
-    UpdateJ(link,ob,function(){alert("Changes have been saved");   if(callback!=undefined) callback()});  
-    dedit.style.display="none";
- 
-   // window.location.reload();
-    
-}
-
-function selOpc(op){
-    var o=dedit.obj
-    var to=o.info; 
-    if(op==1){
-        var lp=prompt("Type Licence plate for "+o.truck,to.Licence_Plate);
-        var vin=prompt("Type VIN for "+o.truck,to.vin);
-        var sd=prompt("Type Stiker Date for "+o.truck,to.Reg_Stiker);
-          var cd=prompt("Type CNG Date for "+o.truck,to.cng_date);
-        var lm=prompt("Type Last Milage for "+o.truck,to.last_milage)*1; 
-        if(lp!=null) to.Licence_Plate=lp;
-        if(vin!=null)to.vin=vin;
-        if(sd!=null)to.Reg_Stiker=sd;
-        if(lm!=null)to.cng_date=cd;
-        if(cd!=null)to.Last_milage=lm;
-        desc.value=JSON.stringify(o.info).replace(/}/g,"").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"");
-        alert(desc.value);
-  
-}   
- if(op==2){
-          if(prompt("For this option Type password")==="andres123"){    
-     if(confirm("Are you sure, it will delete all information of this truck")) {
-
-    var tk=   {
-      "truck": o.truck,
-      "info": {
-        "Licence_Plate": "",
-        "vin": "",
-        "Reg_Stiker": "",
-        "cng_date": "",
-        "Last_milage": 0
-      },
-      "note": "",
-      "events": []
+        //      UpdateJ(link,ob);  
+        GetJ(link, function(r) {
+            ;
+        })
     }
 
-    desc.value=JSON.stringify(o.info).replace(/}/g,"").replace(/,/g,"\n").replace(/"/g,"").replace(/{/g,"");
-    
-     alert(o.truck+" Has been reseted, press update to save changes")
-     }
-}
-else alert("Wrong password")
- }
- if(op==4){
-   
-     var pw=prompt("A password is required, type password:")
-     if(pw==="andres12345"){
-         var inde=ob.trks.indexOf(o);
-         alert(inde);
-         ob.trks.splice(inde,1);
-        // alert("To finish don't forget to press update button");
-       
-        update(function(){alert("App will be reloaded");window.location.reload();});
-     }
-     
-     
-     
-     
- }
+    function crTag(trk) {
+        var p = document.createElement("button");
+        p.setAttribute("class", "cb");
+        p.obj = trk;
+        var nee = trk.events.length;
 
-if(op==2){
+        p.innerHTML = trk.truck; //+fs
+        p.onclick = function() {
+            var nee = this.obj.events.length;
+            nev.innerHTML = nee
+            if (nee > 0) p.innerHTML = "<span style='font-size:8px;color:red;'>" + nee + "</span>" + this.obj.truck;
+            dedit.obj = this.obj;
 
-     
-}
-if(op==2){
+            ti.innerHTML = this.obj.truck;
 
-     
-}
-sops.selectedIndex=0;
-}
+            desc.value = JSON.stringify(this.obj.info).replace(/}/g, "").replace(/,/g, "\n").replace(/"/g, "").replace(/{/g, "")
+            dedit.style.display = "block";
 
-function GetJ(url, callback) {
-
-            //var url  = "http://localhost:8080/api/v1/users";
-            var xhr = new XMLHttpRequest()
-            xhr.open('GET', url + '/1', true)
-            xhr.onload = function() {
-                //         (xhr.responseText)
-                var users = JSON.parse(xhr.responseText);
-                //     var obb=decoding(users.prim);
-
-                if (xhr.readyState == 4 && xhr.status == "200") {
-                    callback(users);
-                } else {
-                    console.error(users);
-                }
-            }
-            xhr.send(null);
         }
 
-         // Update a user
-        function UpdateJ(url, ob, callback) {
+        var aa = JSON.stringify(trk).replace(/}/g, "\n}").replace(/,/g, "\n").replace(/"/g, "").replace(/{/g, "\n{\n")
+        p.value = aa;
+        var evs = p.obj.events.length;
+        var lastbgr, lastcgr;
+        for (var i = 0; i < evs.length; i++) {
+            if (evs[i].type === "Body Greasing") lastbgr = evs[i].date;
+            if (evs[i].type === "Chassy Greasing") lastcgr = evs[i].date;
+        }
+        p.style = "border-color:#0f0;";
+        if (nee > 0) {
 
-            json = JSON.stringify(ob);
-            var xhr = new XMLHttpRequest();
-            xhr.open("PUT", url + '/12', true);
-            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-            xhr.onload = function() {
-                var users = JSON.parse(xhr.responseText);
-                if (xhr.readyState == 4 && xhr.status == "200") {
-                    //  alert("Tu Forma ha sido Enviada");
-                    if (callback != undefined) callback(users);
-                } else {
-                    (users);
+            p.innerHTML = "<span style='font-size:8px;color:red;>'>" + nee + "</span>" + p.innerHTML;
+        }
+
+        return p;
+
+    }
+
+    function crEv(e) {
+        var aa = JSON.stringify(e).replace(/}/g, "\n").replace(/,/g, "\n").replace(/"/g, "").replace(/{/g, "\n").replace(/:/g, ":  ")
+
+        var p = document.createElement("textarea");
+        p.obj = e;
+        p.setAttribute("class", "ce");
+        p.readOnly = true;
+        p.value = aa;
+        p.style = "border-color:#0f0;";
+
+        p.onclick = function() {
+            //alert(e.type)
+            if (confirm("Do you want to delete event?")) {
+                if (prompt("This require a password, type it") === "andres123") {
+                    //this.obj=null;
+                    var ar = this.parentNode.events;
+                    ar.splice(ar.indexOf(this.obj), 1);
+
+                    this.parentNode.removeChild(this)
+                    //dshowE.style.display="none";
+                    if (confirm("Do you want to save changes?")) update()
+
                 }
             }
-            xhr.send(json);
+
+
         }
 
 
-function addEv(trk){
-    var m=smec.value;
-    if(devent.value.indexOf("-")===-1){alert("Date is required\n\nSet a date and try again");return;}
-     if(m==="Other") m=prompt("Type Mechanic Name");
-    if(m===null) m="Other ??"
- // alert(m)
-    var ev={};
-    ev.truck=trk.truck;
-    ev.type=sevent.value;
-    ev.date=devent.value;
-     ev.mecanic=m;
-    ev.miles=miles.value;
-    ev.note=note.value;
-    ev.from=radt.from;
-    ev.to=radt.to;
-    ev.created=new Date();
-    
-    trk.events.push(ev);
-   if(confirm("Do you want to save changes?")) update()
- 
-}
+        return p;
+    }
 
-function setTime(e){
- 
-    radt.checked=false;
-    alert("*Type time in format 0 to 24")
-  var i=prompt("From: (*0 to 24 hours)")
-  var f=prompt("To:");
-  if(i!=null && f!=null){
-    if(isNaN(i) ||isNaN(f)){
-        alert("Something wrong, should be numbers");
-        return;
+    function showEv(trk) {
+        while (evns.firstChild) {
+            evns.removeChild(evns.lastChild);
+        }
+
+        radt.style.backgound = "gray";
+
+        dshowE.style.display = "block"
+        var es = trk.events;
+        evns.events = es;
+        for (var i = 0; i < es.length; i++) {
+            var oe = crEv(es[i]);
+            oe.index = i;
+            evns.appendChild(oe);
+
+        }
+    }
+
+    function searchev(v) {
+        v = v.toUpperCase();
+        var es = evns.children;
+        //  alert(trks.length)
+        for (var i = 0; i < es.length; i++) {
+            var o = es[i];
+            var s = JSON.stringify(o.obj).toUpperCase();
+            if (s.indexOf(v) > -1) {
+                o.style.display = "block";
+                //  o.style.boxShadow="-18px 14px 14px 1px rgba(0, 0, 0, 0.14);"
+            } else {
+                o.style.display = "none";
+                //  o.style.boxShadow="none"
+
+            }
+        }
+    }
+
+    function search(v) {
+        v = v.toUpperCase();
+        var trks = es.children;
+        //  alert(trks.length)
+        for (var i = 0; i < trks.length; i++) {
+            var o = trks[i];
+            var s = JSON.stringify(o.obj).toUpperCase();
+            if (s.indexOf(v) > -1) {
+                o.style.opacity = 1;
+                //  o.style.boxShadow="-18px 14px 14px 1px rgba(0, 0, 0, 0.14);"
+            } else {
+                o.style.opacity = .3;
+                //  o.style.boxShadow="none"
+            }
+
+        }
+
 
     }
-    else{
-              radt.style.backgound="green";
-        radt.from=i;
-        radt.to=f;
-  
-       
+
+    function update(callback) {
+
+        localStorage.setItem("grs", JSON.stringify(ob));
+        alert("Changes saved locally")
+        UpdateJ(link, ob, function() {
+            alert("Changes have been saved in web");
+            if (callback != undefined) callback()
+        });
+        dedit.style.display = "none";
+
+        // window.location.reload();
+
     }
-  }
-  else {alert("You need to set time. Try again");}
 
-}
+    function selOpc(op) {
+        var o = dedit.obj
+        var to = o.info;
+        if (op == 1) {
+            var lp = prompt("Type Licence plate for " + o.truck, to.Licence_Plate);
+            var vin = prompt("Type VIN for " + o.truck, to.vin);
+            var sd = prompt("Type Stiker Date for " + o.truck, to.Reg_Stiker);
+            var cd = prompt("Type CNG Date for " + o.truck, to.cng_date);
+            var lm = prompt("Type Last Milage for " + o.truck, to.last_milage) * 1;
+            if (lp != null) to.Licence_Plate = lp;
+            if (vin != null) to.vin = vin;
+            if (sd != null) to.Reg_Stiker = sd;
+            if (lm != null) to.cng_date = cd;
+            if (cd != null) to.Last_milage = lm;
+            desc.value = JSON.stringify(o.info).replace(/}/g, "").replace(/,/g, "\n").replace(/"/g, "").replace(/{/g, "");
+            alert(desc.value);
 
-function addTrk(){
-    var n=prompt("Type Truck Id")
-    if(n!=null){
-    var tk=   {
-      "truck": n,
-      "info": {
-        "Licence_Plate": "",
-        "vin": "",
-        "Reg_Stiker": "",
-        "cng_date": "",
-        "Last_milage": 0
-      },
-      "note": "",
-      "events": []
+        }
+        if (op == 2) {
+            if (prompt("For this option Type password") === "andres123") {
+                if (confirm("Are you sure, it will delete all information of this truck")) {
+
+                    var tk = {
+                        "truck": o.truck,
+                        "info": {
+                            "Licence_Plate": "",
+                            "vin": "",
+                            "Reg_Stiker": "",
+                            "cng_date": "",
+                            "Last_milage": 0
+                        },
+                        "note": "",
+                        "events": []
+                    }
+
+                    desc.value = JSON.stringify(o.info).replace(/}/g, "").replace(/,/g, "\n").replace(/"/g, "").replace(/{/g, "");
+
+                    alert(o.truck + " Has been reseted, press update to save changes")
+                }
+            } else alert("Wrong password")
+        }
+        if (op == 4) {
+
+            var pw = prompt("A password is required, type password:")
+            if (pw === "andres12345") {
+                var inde = ob.trks.indexOf(o);
+                alert(inde);
+                ob.trks.splice(inde, 1);
+                // alert("To finish don't forget to press update button");
+
+                update(function() {
+                    alert("App will be reloaded");
+                    window.location.reload();
+                });
+            }
+
+
+
+
+        }
+
+        if (op == 2) {
+
+
+        }
+        if (op == 2) {
+
+
+        }
+        sops.selectedIndex = 0;
     }
-    
-    ob.trks.push(tk);
-    es.appendChild(crTag(tk));
-   update();
-    
+
+    function GetJ(url, callback) {
+
+        //var url  = "http://localhost:8080/api/v1/users";
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', url + '/1', true)
+        xhr.onload = function() {
+            //         (xhr.responseText)
+            var users = JSON.parse(xhr.responseText);
+            //     var obb=decoding(users.prim);
+
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                callback(users);
+            } else {
+                console.error(users);
+            }
+        }
+        xhr.send(null);
     }
-    
-    
-}
+
+    // Update a user
+    function UpdateJ(url, ob, callback) {
+
+        json = JSON.stringify(ob);
+        var xhr = new XMLHttpRequest();
+        xhr.open("PUT", url + '/12', true);
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.onload = function() {
+            var users = JSON.parse(xhr.responseText);
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                //  alert("Tu Forma ha sido Enviada");
+                if (callback != undefined) callback(users);
+            } else {
+                (users);
+            }
+        }
+        xhr.send(json);
+    }
 
 
+    function addEv(trk) {
+        var m = smec.value;
+        if (devent.value.indexOf("-") === -1) {
+            alert("Date is required\n\nSet a date and try again");
+            return;
+        }
+        if (m === "Other") m = prompt("Type Mechanic Name");
+        if (m === null) m = "Other ??"
+        // alert(m)
+        var ev = {};
+        ev.truck = trk.truck;
+        ev.type = sevent.value;
+        ev.date = devent.value;
+        ev.mecanic = m;
+        ev.miles = miles.value;
+        ev.note = note.value;
+        ev.from = radt.from;
+        ev.to = radt.to;
+        ev.created = new Date();
+
+        trk.events.push(ev);
+        if (confirm("Do you want to save changes?")) update()
+
+    }
+
+    function setTime(e) {
+
+        radt.checked = false;
+        alert("*Type time in format 0 to 24")
+        var i = prompt("From: (*0 to 24 hours)")
+        var f = prompt("To:");
+        if (i != null && f != null) {
+            if (isNaN(i) || isNaN(f)) {
+                alert("Something wrong, should be numbers");
+                return;
+
+            } else {
+                radt.style.backgound = "green";
+                radt.from = i;
+                radt.to = f;
+
+
+            }
+        } else {
+            alert("You need to set time. Try again");
+        }
+
+    }
+
+    function addTrk() {
+        var n = prompt("Type Truck Id")
+        if (n != null) {
+            var tk = {
+                "truck": n,
+                "info": {
+                    "Licence_Plate": "",
+                    "vin": "",
+                    "Reg_Stiker": "",
+                    "cng_date": "",
+                    "Last_milage": 0
+                },
+                "note": "",
+                "events": []
+            }
+
+            ob.trks.push(tk);
+            es.appendChild(crTag(tk));
+            update();
+
+        }
+
+
+    }
 </script>
 
 </html>
