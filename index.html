@@ -132,6 +132,7 @@
 </style>
 Search<input id="isearch" oninput="search(this.value)">
 <button onclick="addTrk()">Add Trk</button>
+<button onclick="verify()" style="font-size: 6px;">Verify<br> Local/Web Data</button>
 
 <div id="todo">
 
@@ -140,10 +141,11 @@ Search<input id="isearch" oninput="search(this.value)">
 </div>
 <div id="dedit">
     <p id="ti" style="text-align:center"></p>
-    Options<select id="sops" oninput="selOpc(this.selectedIndex)">
+    Options<select id="sops" oninput="selOpc(this.value)">
         <option>Choose an option</option>
         <option>Edit Truck Info.</option>
         <option>Reset Truck object</option>
+ 
         <option></option>
         <option>Delete this truck</option>
 
@@ -191,6 +193,12 @@ Search<input id="isearch" oninput="search(this.value)">
     <button onclick="dshowE.style.display='none';">Close</button>
 
 </div>
+<div id="showdif" style="width:90%;height:85%;position:absolute;top:10%;left:5%;background:rgba(90, 0, 0, 0.24);display:none;">
+    <br>LOCAL Data:...
+    <textarea id="tloc" style="width:100%;height:40%;"></textarea><p>WEB Data:...
+    <textarea id="tweb" style="width:100%;height:40%;"></textarea>
+    <button onclick="showdif.style.display='none'">Close</button>
+</div>
 <script>
     sc = localStorage.getItem("grs");
 
@@ -229,24 +237,25 @@ Search<input id="isearch" oninput="search(this.value)">
         localStorage.setItem("grs", JSON.stringify(ob))
         //       alert(sc)
     } else {
-
-        var ob = JSON.parse(sc)
-        ar = ob.trks;
-        for (var i = 0; i < ar.length; i++) {
-
-            var o = ar[i];
-
-            es.appendChild(crTag(o));
-
-        }
-        //  
-
-        //      UpdateJ(link,ob);  
         GetJ(link, function(r) {
-            ;
-        })
-    }
+            if(r.message!="Blob does not exist"){
+                ob=r;
+            }
+            else {
+                if(confirm("Object in web doesn't exist, do you want to use local istead?")){
+                    ob=JSON.stringify(sc);
+                }
+                else return;
 
+            }
+    ar = ob.trks;
+        for (var i = 0; i < ar.length; i++) {
+            var o = ar[i];
+           es.appendChild(crTag(o));
+        }
+            });
+    }
+ 
     function crTag(trk) {
         var p = document.createElement("button");
         p.setAttribute("class", "cb");
@@ -388,9 +397,14 @@ Search<input id="isearch" oninput="search(this.value)">
     }
 
     function selOpc(op) {
+     
         var o = dedit.obj
         var to = o.info;
-        if (op == 1) {
+        if (op === "Update Local from Web"){
+ 
+
+        }
+        if (op == "Edit Truck Info.") {
             var lp = prompt("Type Licence plate for " + o.truck, to.Licence_Plate);
             var vin = prompt("Type VIN for " + o.truck, to.vin);
             var sd = prompt("Type Stiker Date for " + o.truck, to.Reg_Stiker);
@@ -405,7 +419,7 @@ Search<input id="isearch" oninput="search(this.value)">
             alert(desc.value);
 
         }
-        if (op == 2) {
+        if (op == "Reset Truck object") {
             if (prompt("For this option Type password") === "andres123") {
                 if (confirm("Are you sure, it will delete all information of this truck")) {
 
@@ -428,7 +442,7 @@ Search<input id="isearch" oninput="search(this.value)">
                 }
             } else alert("Wrong password")
         }
-        if (op == 4) {
+        if (op == "Delete this truck") {
 
             var pw = prompt("A password is required, type password:")
             if (pw === "andres12345") {
@@ -568,9 +582,22 @@ Search<input id="isearch" oninput="search(this.value)">
             update();
 
         }
+    }
 
+    function verify(){
+        try {
+               GetJ(link,function(r){
+                               showdif.style.display="block";
+                                tloc.value=localStorage.getItem("grs")
+                                tweb.value=JSON.stringify(r);
+               })
+                
+            } catch (error) {
+                alert(error)
+            }
 
     }
+
 </script>
 
 </html>
